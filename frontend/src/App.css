@@ -14,14 +14,14 @@ body {
 }
 
 header {
-  padding: 32px 48px;
   background: #111827;
   color: white;
+  padding: 32px 48px;
 }
 
 header h1 {
   margin: 0;
-  font-size: 32px;
+  font-size: 34px;
 }
 
 header p {
@@ -30,10 +30,17 @@ header p {
 }
 
 main {
+  padding: 40px 48px;
+}
+
+.summary {
+  margin-bottom: 30px;
+}
+
+.services {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 40px 48px;
 }
 
 .card {
@@ -53,8 +60,20 @@ main {
   margin: 20px 0 8px;
 }
 
+.healthy {
+  color: #15803d;
+}
+
+.unhealthy {
+  color: #dc2626;
+}
+
+.pending {
+  color: #b45309;
+}
+
 @media (max-width: 900px) {
-  main {
+  .services {
     grid-template-columns: 1fr;
   }
 }

@@ -1,18 +1,33 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
+function ServiceCard({ name, status }) {
+  const healthy = status === 'UP';
+
+  return (
+    <section className="card">
+      <h2>{name}</h2>
+      <div className={healthy ? 'status healthy' : 'status unhealthy'}>
+        {status}
+      </div>
+    </section>
+  );
+}
+
 function App() {
-  const [status, setStatus] = useState('Checking...');
+  const [webStatus, setWebStatus] = useState('CHECKING');
+  const [aiStatus, setAiStatus] = useState('CHECKING');
 
   useEffect(() => {
     fetch('http://localhost:3000/api/web/health')
       .then((response) => response.json())
-      .then((data) => {
-        setStatus(data.status === 'UP' ? 'Healthy' : 'Unavailable');
-      })
-      .catch(() => {
-        setStatus('Unavailable');
-      });
+      .then((data) => setWebStatus(data.status || 'DOWN'))
+      .catch(() => setWebStatus('DOWN'));
+
+    fetch('http://localhost:3000/api/ai/health')
+      .then((response) => response.json())
+      .then((data) => setAiStatus(data.status || 'DOWN'))
+      .catch(() => setAiStatus('DOWN'));
   }, []);
 
   return (
@@ -23,22 +38,24 @@ function App() {
       </header>
 
       <main>
-        <section className="card">
-          <h2>System Status</h2>
-          <div className="status">{status}</div>
-          <p>Web Service</p>
-        </section>
+        <div className="summary">
+          <h2>System Overview</h2>
+          <p>
+            Monitor application health and prepare for autonomous
+            fault diagnosis and recovery.
+          </p>
+        </div>
 
-        <section className="card">
-          <h2>Architecture</h2>
-          <p>Frontend &rarr; API Gateway &rarr; Web Service</p>
-        </section>
+        <div className="services">
+          <ServiceCard name="Web Service" status={webStatus} />
+          <ServiceCard name="AI Service" status={aiStatus} />
 
-        <section className="card">
-          <h2>Recovery Engine</h2>
-          <div className="status">Not Connected</div>
-          <p>AI diagnosis and recovery will be added in later phases.</p>
-        </section>
+          <section className="card">
+            <h2>Recovery Engine</h2>
+            <div className="status pending">NOT CONNECTED</div>
+            <p>Will be enabled in later phases.</p>
+          </section>
+        </div>
       </main>
     </div>
   );
