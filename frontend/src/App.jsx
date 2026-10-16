@@ -19,12 +19,12 @@ function App() {
   const [aiStatus, setAiStatus] = useState('CHECKING');
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/web/health')
+    fetch('/api/web/health')
       .then((response) => response.json())
       .then((data) => setWebStatus(data.status || 'DOWN'))
       .catch(() => setWebStatus('DOWN'));
 
-    fetch('http://localhost:3000/api/ai/health')
+    fetch('/api/ai/health')
       .then((response) => response.json())
       .then((data) => setAiStatus(data.status || 'DOWN'))
       .catch(() => setAiStatus('DOWN'));

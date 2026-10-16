@@ -1,0 +1,14 @@
+fastapi==0.143.2
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+httpx==0.28.1
+
+# --- Prometheus Metrics ---
+prometheus-client==0.26.0
+prometheus-fastapi-instrumentator==8.1.0
+
+# --- OpenTelemetry Distributed Tracing ---
+opentelemetry-api==1.45.1
+opentelemetry-sdk==1.45.1
+opentelemetry-instrumentation-fastapi==0.66b1
+opentelemetry-exporter-otlp-proto-http==1.45.1

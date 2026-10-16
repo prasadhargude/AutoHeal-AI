@@ -1,0 +1,40 @@
+# ==============================================================================
+# Prometheus Alerting Rules — AutoHeal AI
+# ==============================================================================
+
+groups:
+  - name: autoheal_service_alerts
+    rules:
+      # Alert 1: Core service availability
+      - alert: ServiceDown
+        expr: up{job=~"api-gateway|web-service|ai-service"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service instance {{ $labels.instance }} is down"
+          description: "Service {{ $labels.job }} has been unreachable for more than 15 seconds."
+
+      # Alert 2: High HTTP error rate (> 5% 5xx errors over 1m)
+      - alert: HighHttpErrorRate
+        expr: |
+          sum(rate(http_requests_total{status_code=~"5.."}[1m]))
+          /
+          sum(rate(http_requests_total[1m])) > 0.05
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP 5xx error rate detected on {{ $labels.service }}"
+          description: "HTTP 5xx error rate is above 5% over the last minute."
+
+      # Alert 3: High HTTP latency (p95 > 500ms over 1m)
+      - alert: HighHttpLatency
+        expr: |
+          histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[1m])) by (le)) > 0.5
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "High p95 HTTP latency"
+          description: "The 95th percentile HTTP request duration exceeds 500ms over the last minute."

@@ -1,0 +1,49 @@
+# ==============================================================================
+# OpenTelemetry Collector Configuration — AutoHeal AI
+# ==============================================================================
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  # Memory limiter prevents OOM under sudden trace volume spikes
+  memory_limiter:
+    check_interval: 1s
+    limit_percentage: 75
+    spike_limit_percentage: 20
+
+  # Batch processor aggregates spans to optimize network transfer to Tempo
+  batch:
+    send_batch_size: 256
+    timeout: 1s
+
+exporters:
+  # Export traces to Grafana Tempo via OTLP gRPC
+  otlp:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+
+  # Debug exporter for troubleshooting in container logs when needed
+  debug:
+    verbosity: basic
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [otlp]
+  telemetry:
+    metrics:
+      address: 0.0.0.0:8888

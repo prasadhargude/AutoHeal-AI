@@ -1,0 +1,53 @@
+# ==============================================================================
+# Prometheus Configuration — AutoHeal AI
+# ==============================================================================
+
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+  scrape_timeout: 4s
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  # Self-monitoring
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # API Gateway
+  - job_name: "api-gateway"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["api-gateway:3000"]
+        labels:
+          service: "api-gateway"
+          tier: "gateway"
+
+  # Spring Boot Web Service
+  - job_name: "web-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["web-service:8080"]
+        labels:
+          service: "web-service"
+          tier: "backend"
+
+  # FastAPI AI Service
+  - job_name: "ai-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["ai-service:8000"]
+        labels:
+          service: "ai-service"
+          tier: "ai"
+
+  # OpenTelemetry Collector internal metrics
+  - job_name: "otel-collector"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["otel-collector:8888"]
+        labels:
+          service: "otel-collector"
+          tier: "telemetry"

@@ -1,0 +1,144 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "enable": true,
+        "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Service Traffic & Error Analysis: $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
+      "id": 1,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "sum(rate(http_requests_total{job=\"$service\"}[1m])) by (status_code, method)", "legendFormat": "{{method}} {{status_code}}" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "sum(rate(http_server_requests_seconds_count{job=\"$service\"}[1m])) by (status, method)", "legendFormat": "{{method}} {{status}}" }
+      ],
+      "title": "Inbound Request Throughput by Status Code",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
+      "id": 2,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "p50 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "p95 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "p99 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "Spring p50 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "Spring p95 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{job=\"$service\"}[1m])) by (le))", "legendFormat": "Spring p99 Latency" }
+      ],
+      "title": "Latency Distribution",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "id": 101,
+      "title": "Resource Saturation & Performance: $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "id": 3,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "rate(process_cpu_user_seconds_total{job=\"$service\"}[1m])", "legendFormat": "Node.js Process CPU" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "process_cpu_usage{job=\"$service\"}", "legendFormat": "JVM Process CPU" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "rate(process_cpu_seconds_total{job=\"$service\"}[1m])", "legendFormat": "Python Process CPU" }
+      ],
+      "title": "Process CPU Saturation",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "bytes"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "id": 4,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "process_resident_memory_bytes{job=\"$service\"}", "legendFormat": "Resident Memory (RSS)" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "jvm_memory_used_bytes{job=\"$service\",area=\"heap\"}", "legendFormat": "JVM Heap Used" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "jvm_memory_committed_bytes{job=\"$service\",area=\"heap\"}", "legendFormat": "JVM Heap Committed" }
+      ],
+      "title": "Process Memory Allocation",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["autoheal", "deepdive", "sre"],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": { "selected": true, "text": "api-gateway", "value": "api-gateway" },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "definition": "label_values(up, job)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "service",
+        "options": [],
+        "query": { "query": "label_values(up, job)", "refId": "StandardVariableQuery" },
+        "refresh": 1,
+        "regex": "api-gateway|web-service|ai-service",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": { "refresh_intervals": ["5s", "10s", "30s", "1m"] },
+  "timezone": "browser",
+  "title": "AutoHeal AI — Service Deep Dive",
+  "uid": "service-deep-dive",
+  "version": 1
+}

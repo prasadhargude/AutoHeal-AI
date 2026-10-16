@@ -1,0 +1,281 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Service Health & Availability",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DOWN" }, "1": { "color": "green", "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "up{job=\"api-gateway\"}", "legendFormat": "API Gateway" }
+      ],
+      "title": "API Gateway",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DOWN" }, "1": { "color": "green", "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "up{job=\"web-service\"}", "legendFormat": "Web Service" }
+      ],
+      "title": "Web Service (Spring)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DOWN" }, "1": { "color": "green", "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "up{job=\"ai-service\"}", "legendFormat": "AI Service" }
+      ],
+      "title": "AI Service (FastAPI)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DOWN" }, "1": { "color": "green", "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "up{job=\"otel-collector\"}", "legendFormat": "OTel Collector" }
+      ],
+      "title": "OTel Collector",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "title": "Golden Signals (Traffic, Errors, Latency)",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 6 },
+      "id": 5,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "sum(rate(http_requests_total{job=\"api-gateway\"}[1m])) by (route)", "legendFormat": "{{route}}" }
+      ],
+      "title": "Gateway Inbound Request Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 6 },
+      "id": 6,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "sum(rate(http_requests_total{job=\"api-gateway\",status_code=~\"5..\"}[1m])) / sum(rate(http_requests_total{job=\"api-gateway\"}[1m]))", "legendFormat": "5xx Error Rate" }
+      ],
+      "title": "Gateway 5xx Error Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 6 },
+      "id": 7,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{job=\"api-gateway\"}[1m])) by (le))", "legendFormat": "p50 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"api-gateway\"}[1m])) by (le))", "legendFormat": "p95 Latency" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job=\"api-gateway\"}[1m])) by (le))", "legendFormat": "p99 Latency" }
+      ],
+      "title": "Gateway Latency Percentiles",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "id": 102,
+      "title": "Downstream Service Latency & Saturation",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "id": 8,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(gateway_downstream_duration_seconds_bucket[1m])) by (le, target_service))", "legendFormat": "{{target_service}} p95" }
+      ],
+      "title": "Downstream Call Latency (Gateway -> Service)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "bytes"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "id": 9,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "process_resident_memory_bytes{job=\"api-gateway\"}", "legendFormat": "API Gateway RSS" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "jvm_memory_used_bytes{job=\"web-service\",area=\"heap\"}", "legendFormat": "Web Service JVM Heap" },
+        { "datasource": { "type": "prometheus", "uid": "prometheus" }, "expr": "process_resident_memory_bytes{job=\"ai-service\"}", "legendFormat": "AI Service RSS" }
+      ],
+      "title": "Runtime Memory Usage",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["autoheal", "overview", "sre"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": { "refresh_intervals": ["5s", "10s", "30s", "1m"] },
+  "timezone": "browser",
+  "title": "AutoHeal AI — System Overview",
+  "uid": "autoheal-system-overview",
+  "version": 1
+}
